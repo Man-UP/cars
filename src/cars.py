@@ -1,6 +1,7 @@
-#!/usr/bin/env python3.2
-import curses
+#!/usr/bin/env python3
 from itertools import cycle
+import curses
+import _curses
 import os
 import random
 import subprocess
@@ -63,11 +64,14 @@ class MiniGame:
 
         for y in range(height):
             for x in range(len(lines[y])):
-                self.scr.addch(y + y_offset, x + x_offset, lines[y][x])
+                try:
+                    self.scr.addch(y + y_offset, x + x_offset, lines[y][x])
+                except _curses.error:
+                    pass
 
 
 class Cowsay(MiniGame):
-    COW_DIR = '/usr/share/cowsay/cows'
+    COW_DIR = '/usr/share/cows'
 
     COW_FILES = []
     for item in os.listdir(COW_DIR):
@@ -76,7 +80,7 @@ class Cowsay(MiniGame):
             COW_FILES.append(item)
 
     def draw(self):
-        cowsay = subprocess.Popen(('/usr/games/cowsay', '-f',
+        cowsay = subprocess.Popen(('/usr/bin/cowsay', '-f',
                                    random.choice(self.COW_FILES),
                                    "Game Over. You're dead!"),
                                   stdin=subprocess.PIPE,
