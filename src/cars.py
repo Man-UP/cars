@@ -95,7 +95,7 @@ class Cowsay(MiniGame):
         time.sleep(2)
 
 class WebcamFace(MiniGame):
-    IMAGE_PATH = 'image.jpeg'
+    IMAGE_PATH = '/tmp/image.jpeg'
     MARGIN = 5
 
     def draw(self):
